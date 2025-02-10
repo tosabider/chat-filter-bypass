@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>text chat bypasser</title>
+    <meta name="description" content="hawk tuah hawk tuah hawk tuah spit on that thang 😂😂😂"/>
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+      let bypass = (s) => {
+        return s.split``.map((c) => c + String.fromCharCode(8293)).join``;
+      };
+
+      document.addEventListener("DOMContentLoaded", () => {
+        let debug = document.querySelector(".debug");
+        let input = document.querySelector("input");
+
+        let bypassAndCopy = async (s) => {
+          try {
+            await navigator.clipboard.writeText(bypass(s));
+            debug.innerText = `Bypassed your ${s.length} character message!`;
+          } catch (err) {
+            debug.innerText = `Failed to copy text: ${err}`;
+          }
+        };
+
+        document.body.addEventListener("paste", (event) => {
+          event.preventDefault();
+
+          let text = (event.clipboardData || window.clipboardData).getData(
+            "text"
+          );
+
+          bypassAndCopy(text);
+        });
+
+        input.addEventListener("input", (event) => {
+          bypassAndCopy(input.value);
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div class="center">
+      <div class="center-container">
+        <div class="big red">
+          Warning: using this tool will overwrite your clipboard!
+        </div>
+        <div class="big">Paste message anywhere!</div>
+        <input type="text" placeholder="Paste here!" />
+        <div class="big debug">Waiting...</div>
+      </div>
+    </div>
+  </body>
+</html>
